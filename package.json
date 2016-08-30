@@ -1,0 +1,43 @@
+{
+  "name": "puglatizer",
+  "version": "1.0.0",
+  "description": "Simple solution for compiling pug templates into vanilla JS functions for blazin' fast client-side use.",
+  "main": "puglatizer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/happilymarrieddad/puglatizer.git"
+  },
+  "keywords": [
+    "browser",
+    "pug",
+    "templates"
+  ],
+  "author": "Nick Kotenberg",
+  "contributors": [
+    {
+      "name": "Nick Kotenberg",
+      "email": "happilymarrieddad@gmail.com"
+    },
+    {
+      "name": "Beau Sorensen",
+      "email": "mail@beausorensen.com"
+    },
+    {
+      "name": "Luke Karrys",
+      "email": "luke@andyet.net"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/happilymarrieddad/puglatizer/issues"
+  },
+  "homepage": "https://github.com/happilymarrieddad/puglatizer#readme",
+  "dependencies": {
+    "async": "^2.0.1",
+    "pug": "^2.0.0-beta6",
+    "uglify-js": "^2.7.3"
+  }
+}
