@@ -1,0 +1,30 @@
+table.table.table-hover.table-stripped.table-condensed
+	thead
+		tr
+			th Name
+			th Type
+			th Email/Fax/Phone
+			th(style='width:5%')
+	tbody
+		tr(v-for='contact in contacts')
+			td {{ contact.name }}
+			td {{ contact.path }}
+			td {{ contact.info }}
+			td
+				button.btn.btn-xs.btn-danger(id='delete-contacts-{{ contact.id }}',type='button',@click='deleteContact(contact)')
+					span.glyphicon.glyphicon-trash
+	thead
+		tr
+			th
+				input.form-control.form-control-height-28(type='text',v-model='add_contact.name')
+			th
+				select.form-control.form-control-height-28(v-model='add_contact.path')
+					option(value=0) -- Select a Type --
+					option Email
+					option Fax
+					option Phone
+			th
+				input.form-control.form-control-height-28(type='text',v-model='add_contact.info')
+			th
+				button.btn.btn-xs.btn-success(type='button',@click='addContact')
+					span.glyphicon.glyphicon-plus
