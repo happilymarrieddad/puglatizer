@@ -54,7 +54,7 @@ module.exports = function(templateDirectories,outputFile,opts,done) {
 			fs.appendFileSync(outputFile,"        root.templatizer = factory();\r\n")
 			fs.appendFileSync(outputFile,"    }\r\n")
 			fs.appendFileSync(outputFile,"}(this, function () {\r\n")
-			fs.appendFileSync(outputFile,"    var pug=function(){}\r\n")
+			fs.appendFileSync(outputFile,"    var pug = require('pug/runtime')\r\n")
 			fs.appendFileSync(outputFile,"\r\n")
 			fs.appendFileSync(outputFile,'    var puglatizer = {}')
 			fs.appendFileSync(outputFile,"\r\n")
