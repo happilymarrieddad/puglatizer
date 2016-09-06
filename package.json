@@ -1,10 +1,12 @@
 {
   "name": "puglatizer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple solution for compiling pug templates into vanilla JS functions for blazin' fast client-side use.",
   "main": "puglatizer.js",
   "bin": "./bin/cli",
-  "bugs": "https://github.com/happilymarrieddad/puglatizer/issues",
+  "bugs": {
+    "url": "https://github.com/happilymarrieddad/puglatizer/issues"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -33,12 +35,8 @@
     }
   ],
   "license": "MIT",
-  "main": "puglatizer.js",
   "peerDependencies": {
     "pug-runtime": "^2.0.2"
-  },
-  "bugs": {
-    "url": "https://github.com/happilymarrieddad/puglatizer/issues"
   },
   "homepage": "https://github.com/happilymarrieddad/puglatizer#readme",
   "dependencies": {
