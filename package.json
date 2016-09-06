@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "Simple solution for compiling pug templates into vanilla JS functions for blazin' fast client-side use.",
   "main": "puglatizer.js",
-  "bin": "./bin/cli",
+  "bin": "./bin/cli.js",
   "bugs": {
     "url": "https://github.com/happilymarrieddad/puglatizer/issues"
   },
