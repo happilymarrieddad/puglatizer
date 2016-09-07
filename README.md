@@ -150,7 +150,7 @@ $ puglatizer -d path/to/templates -o /path/to/output/templates.js
 
 ## Changelog
 
-- 1.1.0
+- 1.1.1
   - Finished intial build. Let me know what you think!
 
 ## License
