@@ -140,12 +140,6 @@ Simply pass in data objects to make those variables available within the templat
 puglatizer.Template({ title: ..., description: ...});
 ```
 
-Using jade's [`&attributes(attributes)`](http://jade-lang.com/reference/attributes/#and-attributes) syntax:
-```js
-puglatizer.Template.call({ attributes:{ class: ..., value: ...}} , data);
-puglatizer.Template.apply({ attributes:{ class: ..., value: ...}} , [data]);
-```
-
 ## CLI
 
 Puglatizer comes with a bin script to use from makefiles/package.json scripts/etc, it works like this:
