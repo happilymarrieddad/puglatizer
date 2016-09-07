@@ -1,6 +1,6 @@
 {
   "name": "puglatizer",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Simple solution for compiling pug templates into vanilla JS functions for blazin' fast client-side use.",
   "main": "puglatizer.js",
   "bin": "./bin/cli.js",
