@@ -7,6 +7,7 @@ var pug = require('pug'),
 	_ = require('lodash'),
 	path = require('path'),
 	fs = require('fs'),
+	minify = require('harp-minify'),
 	filePaths = []
 
 var buildTemplateFromFile = function(filepath,respond) {
@@ -49,12 +50,20 @@ module.exports = function(templateDirectories,outputFile,opts,done) {
 			fs.appendFileSync(outputFile,"        module.exports = factory();\r\n")
 			fs.appendFileSync(outputFile,"    } else {\r\n")
 			fs.appendFileSync(outputFile,"        if (typeof root === 'undefined' || root !== Object(root)) {\r\n")
-			fs.appendFileSync(outputFile,"            throw new Error('templatizer: window does not exist or is not an object');\r\n")
+			fs.appendFileSync(outputFile,"            throw new Error('puglatizer: window does not exist or is not an object');\r\n")
 			fs.appendFileSync(outputFile,"        }\r\n")
-			fs.appendFileSync(outputFile,"        root.templatizer = factory();\r\n")
+			fs.appendFileSync(outputFile,"        root.puglatizer = factory();\r\n")
 			fs.appendFileSync(outputFile,"    }\r\n")
 			fs.appendFileSync(outputFile,"}(this, function () {\r\n")
-			fs.appendFileSync(outputFile,"    var pug = require('pug/runtime')\r\n")
+			fs.appendFileSync(outputFile,"    var pug = {\r\n")
+			fs.appendFileSync(outputFile,"    	merge:" + minify.js(pug.runtime.merge.toString()) + ',\r\n')
+			fs.appendFileSync(outputFile,"    	classes:" + minify.js(pug.runtime.classes.toString()) + ',\r\n')
+			fs.appendFileSync(outputFile,"    	style:" + minify.js(pug.runtime.style.toString()) + ',\r\n')
+			fs.appendFileSync(outputFile,"    	attr:" + minify.js(pug.runtime.attr.toString()) + ',\r\n')
+			fs.appendFileSync(outputFile,"    	attrs:" + minify.js(pug.runtime.attrs.toString()) + ',\r\n')
+			fs.appendFileSync(outputFile,"    	escape:" + minify.js(pug.runtime.escape.toString()).replace('pug_match_html','(/[\"&<>]/)') + ',\r\n')
+			fs.appendFileSync(outputFile,"    	rethrow:" + minify.js(pug.runtime.rethrow.toString()) + '\r\n')
+			fs.appendFileSync(outputFile,"    }\r\n")
 			fs.appendFileSync(outputFile,"\r\n")
 			fs.appendFileSync(outputFile,'    var puglatizer = {}')
 			fs.appendFileSync(outputFile,"\r\n")
@@ -94,7 +103,7 @@ module.exports = function(templateDirectories,outputFile,opts,done) {
 							var pugatizerPath = '    puglatizer' + currentDir.replace(templateDirectories,'').replace(/\//g,'"]["') + '"]["' + file.replace('.pug','') + '"] = '
 							pugatizerPath = pugatizerPath.replace('puglatizer"]','puglatizer')
 							buildTemplateFromFile(filepath,function(err,template) {
-								pugatizerPath += require('harp-minify').js(template.toString()) + ';\r\n\r\n'
+								pugatizerPath += minify.js(template.toString()) + ';\r\n\r\n'
 								fs.appendFileSync(outputFile,pugatizerPath)
 								if ((!(--num)) && !callback_is_going_to_be_called && !callback_has_been_called) { callback_is_going_to_be_called = true;return cb() }
 							})
