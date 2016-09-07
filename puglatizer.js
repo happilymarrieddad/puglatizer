@@ -60,9 +60,10 @@ module.exports = function(templateDirectories,outputFile,opts,done) {
 			fs.appendFileSync(outputFile,"\r\n")
 			return callback()
 		},
+		// Here we build all the pug functions
 		function(callback) {
 
-			var fileLoop = function(currentDir,cb) {
+			var fileLoop = function(currentDir,templateDirectories,cb) {
 				var num = 0
 				var callback_is_going_to_be_called = false
 				var files = fs.readdirSync(currentDir)
@@ -73,11 +74,13 @@ module.exports = function(templateDirectories,outputFile,opts,done) {
 					var stat = fs.statSync(filepath)
 
 					if (stat.isDirectory()) {
+						//console.log(file)
 						callback_is_going_to_be_called = true
 						var callback_has_been_called = false
-						var pugatizerPath = '    puglatizer["' + currentDir.replace(templateDirectories,'').replace(/\//g,'"]["') + '"]["' + file + '"] = {}\r\n'
+						var pugatizerPath = '    puglatizer' + currentDir.replace(templateDirectories,'').replace(/\//g,'"]["') + '"]["' + file.replace('.pug','') + '"] = {}\r\n'
+						pugatizerPath = pugatizerPath.replace('puglatizer"]','puglatizer')
 						fs.appendFileSync(outputFile,pugatizerPath)
-						fileLoop(filepath,function() {
+						fileLoop(filepath,templateDirectories,function() {
 							num--
 							if (!callback_has_been_called) {
 								callback_has_been_called = true
@@ -85,9 +88,11 @@ module.exports = function(templateDirectories,outputFile,opts,done) {
 							}
 						})
 					} else if (stat.isFile()) {
+						//console.log(filepath)
 						var ext = path.extname(filepath)
 						if (ext == '.pug') {
-							var pugatizerPath = '    puglatizer["' + currentDir.replace(templateDirectories,'').replace(/\//g,'"]["') + '"]["' + file + '"] = '
+							var pugatizerPath = '    puglatizer' + currentDir.replace(templateDirectories,'').replace(/\//g,'"]["') + '"]["' + file.replace('.pug','') + '"] = '
+							pugatizerPath = pugatizerPath.replace('puglatizer"]','puglatizer')
 							buildTemplateFromFile(filepath,function(err,template) {
 								pugatizerPath += require('harp-minify').js(template.toString()) + ';\r\n\r\n'
 								fs.appendFileSync(outputFile,pugatizerPath)
@@ -101,7 +106,7 @@ module.exports = function(templateDirectories,outputFile,opts,done) {
 
 			}
 			
-			fileLoop(templateDirectories,function() {
+			fileLoop(templateDirectories,templateDirectories,function() {
 				return callback()
 			})
 		},

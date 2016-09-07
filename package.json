@@ -35,9 +35,6 @@
     }
   ],
   "license": "MIT",
-  "peerDependencies": {
-    "pug-runtime": "^2.0.2"
-  },
   "homepage": "https://github.com/happilymarrieddad/puglatizer#readme",
   "dependencies": {
     "async": "^2.0.1",
@@ -45,6 +42,10 @@
     "harp-minify": "^0.4.0",
     "pug": "^2.0.0-beta6",
     "pug-runtime": "^2.0.2",
+    "minimist": "^1.1.3",
     "uglify-js": "^2.7.3"
+  },
+  "peerDependencies": {
+    "pug-runtime": "^2.0.2"
   }
 }
