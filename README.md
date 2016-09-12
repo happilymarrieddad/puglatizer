@@ -150,6 +150,9 @@ $ puglatizer -d path/to/templates -o /path/to/output/templates.js
 
 ## Changelog
 
+- 1.1.3
+  - Updated version for cli.js.
+
 - 1.1.2
   - Updated the way the template file is built.
 
