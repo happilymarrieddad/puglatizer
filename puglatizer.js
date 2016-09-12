@@ -153,5 +153,4 @@ module.exports = function(templateDirectories,outputFile,opts,done) {
 		return done(null)
 	})
 
-	//loopThroughDirectory(templateDirectories,templateDirectories,outputFile)
 }

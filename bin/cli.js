@@ -26,9 +26,14 @@ var usage = [
     '      # if `outfile` is not supplied, output will be written to stdout'
 ].join('\n');
 
-
+var version = argv.v || argv.version;
 var directory = argv.d;
 var outfile = argv.o;
+
+if (version) {
+    console.log(require('../package.json').version);
+    process.exit(1);
+}
 
 if (!directory) {
     console.log(usage);
