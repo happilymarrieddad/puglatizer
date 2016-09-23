@@ -77,45 +77,66 @@ module.exports = function(templateDirectories,outputFile,opts,done) {
 		function(callback) {
 
 			var fileLoop = function(currentDir,templateDirectories,cb) {
-				var num = 0
-				var callback_is_going_to_be_called = false
-				var files = fs.readdirSync(currentDir)
+				var callback_has_been_called = false
+				fs.readdir(currentDir,function(err,files) {
+					if (err) {
+						return console.log('Unable to find files in path',currentDir)
+					}
+					var num = files.length
 
-				files.forEach(function(file,index) {
-					num++
-					var filepath = currentDir + '/' + file
-					var stat = fs.statSync(filepath)
-
-					if (stat.isDirectory()) {
-						//console.log(file)
-						callback_is_going_to_be_called = true
-						var callback_has_been_called = false
-						var pugatizerPath = '    puglatizer' + currentDir.replace(templateDirectories,'').replace(/\//g,'"]["') + '"]["' + file.replace('.pug','') + '"] = {}\r\n'
-						pugatizerPath = pugatizerPath.replace('puglatizer"]','puglatizer')
-						fs.appendFileSync(outputFile,pugatizerPath)
-						fileLoop(filepath,templateDirectories,function() {
-							num--
+					var finishFile = function(i) {
+						if (!(--num)) {
 							if (!callback_has_been_called) {
 								callback_has_been_called = true
 								return cb()
 							}
-						})
-					} else if (stat.isFile()) {
-						//console.log(filepath)
-						var ext = path.extname(filepath)
-						if (ext == '.pug') {
-							var pugatizerPath = '    puglatizer' + currentDir.replace(templateDirectories,'').replace(/\//g,'"]["') + '"]["' + file.replace('.pug','') + '"] = '
-							pugatizerPath = pugatizerPath.replace('puglatizer"]','puglatizer')
-							buildTemplateFromFile(filepath,function(err,template) {
-								if (err) { console.log(err);console.log(currentDir,filepath) }
-								pugatizerPath += minify.js(template.toString()) + ';\r\n\r\n'
-								fs.appendFileSync(outputFile,pugatizerPath)
-								if ((!(--num)) && !callback_is_going_to_be_called && !callback_has_been_called) { callback_is_going_to_be_called = true;return cb() }
-							})
 						} else {
-							if ((!(--num)) && !callback_is_going_to_be_called && !callback_has_been_called) { callback_is_going_to_be_called = true;return cb() }
+							buildFileData(i+1)
 						}
 					}
+
+					var buildFileData = function(i) {
+						var file = files[i]
+						var filepath = currentDir + '/' + file
+
+						fs.stat(filepath,function(err2,stats) {
+							if (err2) {
+								return console.log('Unable to find file',filepath)
+							}
+
+							if (stats && stats.isDirectory()) {
+								var pugatizerPath = '    puglatizer' + currentDir.replace(templateDirectories,'').replace(/\//g,'"]["') + '"]["' + file.replace('.pug','') + '"] = {}\r\n'
+								pugatizerPath = pugatizerPath.replace('puglatizer"]','puglatizer')
+								fs.appendFileSync(outputFile,pugatizerPath)
+								fileLoop(filepath,templateDirectories,function() {
+									finishFile(i)
+								})
+							} else if (stats && stats.isFile()) {
+								var ext = path.extname(filepath)
+								if (ext == '.pug') {
+									var pugatizerPath = '    puglatizer' + currentDir.replace(templateDirectories,'').replace(/\//g,'"]["') + '"]["' + file.replace('.pug','') + '"] = '
+									pugatizerPath = pugatizerPath.replace('puglatizer"]','puglatizer')
+									buildTemplateFromFile(filepath,function(err,template) {
+										if (err) { console.log(currentDir,filepath);throw new Error(err) }
+										pugatizerPath += minify.js(template.toString()) + ';\r\n\r\n'
+										fs.appendFileSync(outputFile,pugatizerPath)
+										finishFile(i)
+									})
+								} else {
+									finishFile(i)
+								}
+							} else {
+								finishFile(i)
+							}
+						})
+					}
+
+					if (!num) {
+						return console.log('Unable to find files in path',currentDir)
+					} else {
+						buildFileData(0)
+					}
+
 				})
 
 			}
@@ -137,5 +158,4 @@ module.exports = function(templateDirectories,outputFile,opts,done) {
 		return done(null)
 	})
 
-	//loopThroughDirectory(templateDirectories,templateDirectories,outputFile)
 }
