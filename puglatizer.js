@@ -20,7 +20,8 @@ var buildTemplateFromFile = function(filepath,respond) {
 				var template = wrap(compiledPug)
 				return respond(null,template)
 			} catch(err) {
-				return respond(err)
+				console.log('Error at',filepath)
+				console.log(err)
 			}
 		})
 	})
@@ -117,7 +118,6 @@ module.exports = function(templateDirectories,outputFile,opts,done) {
 									var pugatizerPath = '    puglatizer' + currentDir.replace(templateDirectories,'').replace(/\//g,'"]["') + '"]["' + file.replace('.pug','') + '"] = '
 									pugatizerPath = pugatizerPath.replace('puglatizer"]','puglatizer')
 									buildTemplateFromFile(filepath,function(err,template) {
-										if (err) { console.log(currentDir,filepath);throw new Error(err) }
 										pugatizerPath += minify.js(template.toString()) + ';\r\n\r\n'
 										fs.appendFileSync(outputFile,pugatizerPath)
 										finishFile(i)

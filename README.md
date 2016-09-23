@@ -150,7 +150,7 @@ $ puglatizer -d path/to/templates -o /path/to/output/templates.js
 
 ## Changelog
 
-- 1.1.3
+- 1.1.5
   - Fixed an issue.
 
 - 1.1.2
