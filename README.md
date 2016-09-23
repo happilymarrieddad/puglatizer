@@ -150,6 +150,9 @@ $ puglatizer -d path/to/templates -o /path/to/output/templates.js
 
 ## Changelog
 
+- 1.1.2
+  - Added some more error correction on a rare error.
+
 - 1.1.1
   - Finished intial build. Let me know what you think!
 

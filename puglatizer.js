@@ -15,9 +15,13 @@ var buildTemplateFromFile = function(filepath,respond) {
 		if (err) { return respond(err) }
 		fs.readFile(filepath,function(err,fileData) {
 			if (err) { return respond(err) }
-			var compiledPug = pug.compile(fileData)
-			var template = wrap(compiledPug)
-			return respond(null,template)
+			try {
+				var compiledPug = pug.compile(fileData)
+				var template = wrap(compiledPug)
+				return respond(null,template)
+			} catch(err) {
+				return respond(err)
+			}
 		})
 	})
 }
@@ -103,6 +107,7 @@ module.exports = function(templateDirectories,outputFile,opts,done) {
 							var pugatizerPath = '    puglatizer' + currentDir.replace(templateDirectories,'').replace(/\//g,'"]["') + '"]["' + file.replace('.pug','') + '"] = '
 							pugatizerPath = pugatizerPath.replace('puglatizer"]','puglatizer')
 							buildTemplateFromFile(filepath,function(err,template) {
+								if (err) { console.log(err);console.log(currentDir,filepath) }
 								pugatizerPath += minify.js(template.toString()) + ';\r\n\r\n'
 								fs.appendFileSync(outputFile,pugatizerPath)
 								if ((!(--num)) && !callback_is_going_to_be_called && !callback_has_been_called) { callback_is_going_to_be_called = true;return cb() }
