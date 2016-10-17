@@ -60,6 +60,8 @@ module.exports = function(templateDirectories,outputFile,opts,done) {
 			fs.appendFileSync(outputFile,"        root.puglatizer = factory();\r\n")
 			fs.appendFileSync(outputFile,"    }\r\n")
 			fs.appendFileSync(outputFile,"}(this, function () {\r\n")
+			fs.appendFileSync(outputFile,"    function pug_classes_object(val) { var classString = '', padding = ''; for (var key in val) { if (key && val[key] && pug_has_own_property.call(val, key)) { var classString = classString + padding + key; var padding = ' '; } } return classString; }")
+			fs.appendFileSync(outputFile,"    function pug_classes_array(val, escaping) { var classString = '', className, padding = '', escapeEnabled = Array.isArray(escaping); for (var i = 0; i < val.length; i++) { var className = pug_classes(val[i]); if (!className) continue; escapeEnabled && escaping[i] && (className = pug_escape(className)); var classString = classString + padding + className; var padding = ' '; } return classString; }")
 			fs.appendFileSync(outputFile,"    " + minify.js(pug.runtime.merge.toString()) + '\r\n')
 			fs.appendFileSync(outputFile,"    " + minify.js(pug.runtime.classes.toString()) + '\r\n')
 			fs.appendFileSync(outputFile,"    " + minify.js(pug.runtime.style.toString()) + '\r\n')
