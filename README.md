@@ -150,6 +150,9 @@ $ puglatizer -d path/to/templates -o /path/to/output/templates.js
 
 ## Changelog
 
+- 1.2.0
+  - New version that is more stable.
+
 - 1.1.6
   - Fixed another issue with the loop.
 
