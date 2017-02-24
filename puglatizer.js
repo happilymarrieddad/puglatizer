@@ -47,8 +47,8 @@ module.exports = function(templateDirectories,outputFile,opts,done) {
 			fs.stat(outputFile,function(err,stat) {
 				if (err) { return callback(null) }
 				console.log('Found old ' + outputFile + ' so now removing')
-				fs.unlink(outputFile)
-				return callback(null)
+				fs.unlinkSync(outputFile)
+        return callback(null)
 			})
 		},
 		// Create the initial file
