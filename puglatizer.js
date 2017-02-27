@@ -10,13 +10,14 @@ var pug = require('pug'),
 	minify = require('harp-minify'),
 	filePaths = []
 
-var buildTemplateFromFile = function(filepath,respond) {
+var buildTemplateFromFile = function(filepath,options,respond) {
 	fs.stat(filepath,function(err,stat) {
 		if (err) { return respond(err) }
 		fs.readFile(filepath,function(err,fileData) {
 			if (err) { return respond(err) }
 			try {
-				var compiledPug = pug.compile(fileData)
+        options.filename = filepath
+				var compiledPug = pug.compile(fileData, options)
 				var template = wrap(compiledPug)
 				return respond(null,template)
 			} catch(err) {
@@ -36,14 +37,18 @@ module.exports = function(templateDirectories,outputFile,opts,done) {
 	var options =  opts && typeof opts == 'object' ? opts : {},
 		results = {}
 
+  if(!options.hasOwnProperty('basedir')){
+    options.basedir = templateDirectories
+  }
+
 	async.waterfall([
 		// Unbuild old template file if exists
 		function(callback) {
 			fs.stat(outputFile,function(err,stat) {
 				if (err) { return callback(null) }
 				console.log('Found old ' + outputFile + ' so now removing')
-				fs.unlink(outputFile)
-				return callback(null)
+				fs.unlinkSync(outputFile)
+        return callback(null)
 			})
 		},
 		// Create the initial file
@@ -126,7 +131,7 @@ module.exports = function(templateDirectories,outputFile,opts,done) {
 								if (ext == '.pug') {
 									var pugatizerPath = '    puglatizer' + currentDir.replace(templateDirectories,'').replace(/\//g,'"]["') + '"]["' + file.replace('.pug','') + '"] = '
 									pugatizerPath = pugatizerPath.replace('puglatizer"]','puglatizer')
-									buildTemplateFromFile(filepath,function(err,template) {
+									buildTemplateFromFile(filepath,options,function(err,template) {
 										pugatizerPath += minify.js(template.toString()) + ';\r\n\r\n'
 										fs.appendFileSync(outputFile,pugatizerPath)
 										finishFile(i)
