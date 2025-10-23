@@ -1,0 +1,21 @@
+doctype html
+html(lang="en")
+  head
+    title #{title}
+    script(type='text/javascript')
+      - if ({foo}) console.log('Bar!');
+  body
+    h1 This template is a little more complex and used #{templating_values} 
+    div.simple
+      p It handles arrays!
+        ul
+          if numbers
+            each val in numbers
+              li #{val}
+          else
+            li No numbers!
+      p It handles objects/dictionarys!
+        ul
+          if animals
+            each val, key in animals
+              li #{key} are #{val}
