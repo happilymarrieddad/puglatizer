@@ -45,7 +45,7 @@
     "escape-regexp": "0.0.1",
     "harp-minify": "^0.4.0",
     "minimist": "^1.2.0",
-    "pug": "^2.0.0-rc.4",
+    "pug": "^3.0.3",
     "pug-runtime": "^2.0.3",
     "uglify-js": "^2.8.29"
   }
