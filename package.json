@@ -36,6 +36,10 @@
 		{
 			"name": "Luke Karrys",
 			"email": "luke@andyet.net"
+		},
+		{
+			"name": "Jake Abed",
+			"email": "jakeabed@proton.me"
 		}
 	],
 	"license": "MIT",
