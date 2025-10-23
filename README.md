@@ -222,3 +222,4 @@ MIT
 - Nick Kotenberg [github profile](https://github.com/happilymarrieddad)
 - Aaron McCall [github profile](https://github.com/aaronmccall)
 - Luke Karrys [github profile](https://github.com/lukekarrys)
+- Jake Abed [github profile](https://github.com/jake-abed)
