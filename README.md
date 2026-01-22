@@ -1,18 +1,31 @@
 # puglatizer.js
 
-Simple solution for compiling pug templates into vanilla JS functions for blazin' fast client-side use.
+Simple solution for compiling pug templates into vanilla JS functions for
+blazin' fast client-side use.
 
-** NOTE! This is mostly taken from https://github.com/HenrikJoreteg/templatizer but converted to use pug **
+** NOTE! This is mostly taken from https://github.com/HenrikJoreteg/templatizer
+but converted to use pug **
 
 ## What is this?
 
-Client-side templating is overly complicated, ultimately what you *actually* want is a function you can call from your JS that puts your data in a template. Why should I have to send a bunch of strings with Mustaches `{{}}` or other silly stuff for the client to parse? Ultimately, all I want is a function that I can call with some variable to render the string I want.
+Client-side templating is overly complicated, ultimately what you _actually_
+want is a function you can call from your JS that puts your data in a template.
+Why should I have to send a bunch of strings with Mustaches `{{}}` or other
+silly stuff for the client to parse? Ultimately, all I want is a function that I
+can call with some variable to render the string I want.
 
-So, the question is, what's a sane way to get to that point? Enter [pug](https://pugjs.org). Simple, intuitive templating, and happens to be what I use on the server anyway. So... pug has some awesome stuff for compiling templates into functions. I just built puglatizer to make it easy to turn a folder full of pug templates into a CommonJS module that exports all the template functions by whatever their file name.
+So, the question is, what's a sane way to get to that point? Enter
+[pug](https://pugjs.org). Simple, intuitive templating, and happens to be what I
+use on the server anyway. So... pug has some awesome stuff for compiling
+templates into functions. I just built puglatizer to make it easy to turn a
+folder full of pug templates into a CommonJS module that exports all the
+template functions by whatever their file name.
 
 ## Is it faster?
 
-I have no idea... I know the client side javascript is REALLY fast and templatizer was 6-10 times faster than mustache.js with ICanHaz and this is mostly based off of templatizer.
+I have no idea... I know the client side javascript is REALLY fast and
+templatizer was 6-10 times faster than mustache.js with ICanHaz and this is
+mostly based off of templatizer.
 
 ## How do I use it?
 
@@ -45,26 +58,27 @@ So a folder like this
 Compiles down to a JS file that looks something like this:
 
 ```js
-var pug = require('pug-runtime') // This is a peerDependency
+var pug = require('pug-runtime'); // This is a peerDependency
 
 var templates = {};
 
 // a function built from the `user.pug` file
 // that takes your data and returns a string.
-templates.user = function () {}
+templates.user = function () {};
 
 // built from the `app.pug` file
-templates.app = function () {} // the function
+templates.app = function () {}; // the function
 
 // folders become nested objects so
 // myfolder/nestedTemplate.pug becomes
 templates.myFolder = {};
-templates.myfolder.nestedTemplate = function () {} // the template function
+templates.myfolder.nestedTemplate = function () {}; // the template function
 
 module.exports = templates;
 ```
 
-The awesome thing is... they're just functions at this point. Crazy fast, SO MUCH WIN!!!!
+The awesome thing is... they're just functions at this point. Crazy fast, SO
+MUCH WIN!!!!
 
 ## API
 
@@ -81,7 +95,8 @@ puglatizer(
 
 A string or an array of paths to look for templates.
 
-The path can also be a [glob](https://github.com/isaacs/node-glob) instead that can be used to match `*.pug` files across multiple directories. For example:
+The path can also be a [glob](https://github.com/isaacs/node-glob) instead that
+can be used to match `*.pug` files across multiple directories. For example:
 
 ```js
 puglatizer(__dirname + '/app/**/*.pug', ...);
@@ -89,30 +104,38 @@ puglatizer(__dirname + '/app/**/*.pug', ...);
 
 ### outputFile (string)
 
-Optionally build the compiled templates to a file. The output will be a CommonJS module. If you don't build to a file, you'll want to supply a callback to do something else with the compiled templates.
+Optionally build the compiled templates to a file. The output will be a CommonJS
+module. If you don't build to a file, you'll want to supply a callback to do
+something else with the compiled templates.
 
 ### Options (object)
 
 ##### `pug` (object, default `{}`)
 
-`pug` is an object which will be passed directly to `pug.compile()`. See the [pug API documentation](http://pug-lang.com/api/) for what options are available.
+`pug` is an object which will be passed directly to `pug.compile()`. See the
+[pug API documentation](http://pug-lang.com/api/) for what options are
+available.
 
 Here's an example where we set the pug `compileDebug` option to `true`.
 
 ```js
 puglatizer(templatesDir, outputFile, {
-    // Options
-    pug: {
-        compileDebug: true
-    }
+	// Options
+	pug: {
+		compileDebug: true,
+	},
 });
 ```
 
 ### Callback (function)
 
-If the last parameter is a function, it will be treated as a callback. The callback will always have the signature `function (err, templates) {}`. Use this to respond to errors or to do something else with the source of the compiled templates file.
+If the last parameter is a function, it will be treated as a callback. The
+callback will always have the signature `function (err, templates) {}`. Use this
+to respond to errors or to do something else with the source of the compiled
+templates file.
 
-This can be helpful if you don't want to write the compiled templates directly to a file, and you want to make modifications first. 
+This can be helpful if you don't want to write the compiled templates directly
+to a file, and you want to make modifications first.
 
 ### Argument order
 
@@ -121,28 +144,44 @@ Both the `outputFile` string and `options` object are optional.
 ```js
 // Use just the callback to do something else with your templates
 // besides write them to a file
-puglatizer(templatesDir, function (err, templates) { });
+puglatizer(templatesDir, function (err, templates) {});
 
 // Build to a file and do something in the callback
-puglatizer(templatesDir, outputFile, function (err, templates) { });
+puglatizer(templatesDir, outputFile, function (err, templates) {});
 
 // Use only with options
-puglatizer(templatesDir, { /* options */ }, function (err, templates) { });
+puglatizer(
+	templatesDir,
+	{
+		/* options */
+	},
+	function (err, templates) {}
+);
 
 // Use with options and outputFile
-puglatizer(templatesDir, outputFile, { /* options */ }, function (err, templates) { });
+puglatizer(
+	templatesDir,
+	outputFile,
+	{
+		/* options */
+	},
+	function (err, templates) {}
+);
 ```
 
 ## Passing client side data to templates
 
-Simply pass in data objects to make those variables available within the template:
+Simply pass in data objects to make those variables available within the
+template:
+
 ```js
 puglatizer.Template({ title: ..., description: ...});
 ```
 
 ## CLI
 
-Puglatizer comes with a bin script to use from makefiles/package.json scripts/etc, it works like this:
+Puglatizer comes with a bin script to use from makefiles/package.json
+scripts/etc, it works like this:
 
 ```
 $ puglatizer -d path/to/templates -o /path/to/output/templates.js
@@ -150,16 +189,25 @@ $ puglatizer -d path/to/templates -o /path/to/output/templates.js
 
 ## Changelog
 
+- 2.0.0
+
+  - Replaced `harp-minify` with `terser` for JS minification, removed unused
+    packages.
+
 - 1.2.0
+
   - New version that is more stable.
 
 - 1.1.6
+
   - Fixed another issue with the loop.
 
 - 1.1.5
+
   - Fixed an issue.
 
 - 1.1.2
+
   - Updated the way the template file is built.
 
 - 1.1.1
@@ -174,3 +222,4 @@ MIT
 - Nick Kotenberg [github profile](https://github.com/happilymarrieddad)
 - Aaron McCall [github profile](https://github.com/aaronmccall)
 - Luke Karrys [github profile](https://github.com/lukekarrys)
+- Jake Abed [github profile](https://github.com/jake-abed)

@@ -1,52 +1,55 @@
 {
-  "name": "puglatizer",
-  "version": "1.1.8",
-  "description": "Simple solution for compiling pug templates into vanilla JS functions for blazin' fast client-side use.",
-  "main": "puglatizer.js",
-  "bin": "./bin/cli.js",
-  "engines": {
-    "node": ">=4.0.0",
-    "npm": ">=5.0.3"
-  },
-  "bugs": {
-    "url": "https://github.com/happilymarrieddad/puglatizer/issues"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/happilymarrieddad/puglatizer.git"
-  },
-  "keywords": [
-    "browser",
-    "pug",
-    "templates"
-  ],
-  "author": "Nick Kotenberg",
-  "contributors": [
-    {
-      "name": "Nick Kotenberg",
-      "email": "happilymarrieddad@gmail.com"
-    },
-    {
-      "name": "Beau Sorensen",
-      "email": "mail@beausorensen.com"
-    },
-    {
-      "name": "Luke Karrys",
-      "email": "luke@andyet.net"
-    }
-  ],
-  "license": "MIT",
-  "homepage": "https://github.com/happilymarrieddad/puglatizer#readme",
-  "dependencies": {
-    "async": "^2.5.0",
-    "escape-regexp": "0.0.1",
-    "harp-minify": "^0.4.0",
-    "minimist": "^1.2.0",
-    "pug": "^2.0.0-rc.4",
-    "pug-runtime": "^2.0.3",
-    "uglify-js": "^2.8.29"
-  }
+	"name": "puglatizer",
+	"version": "2.0.0",
+	"description": "Simple solution for compiling pug templates into vanilla JS functions for blazin' fast client-side use.",
+	"main": "puglatizer.js",
+	"bin": "./bin/cli.js",
+	"engines": {
+		"node": ">=4.0.0",
+		"npm": ">=5.0.3"
+	},
+	"bugs": {
+		"url": "https://github.com/happilymarrieddad/puglatizer/issues"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/happilymarrieddad/puglatizer.git"
+	},
+	"keywords": [
+		"browser",
+		"pug",
+		"templates"
+	],
+	"author": "Nick Kotenberg",
+	"contributors": [
+		{
+			"name": "Nick Kotenberg",
+			"email": "happilymarrieddad@gmail.com"
+		},
+		{
+			"name": "Beau Sorensen",
+			"email": "mail@beausorensen.com"
+		},
+		{
+			"name": "Luke Karrys",
+			"email": "luke@andyet.net"
+		},
+		{
+			"name": "Jake Abed",
+			"email": "jakeabed@proton.me"
+		}
+	],
+	"license": "MIT",
+	"homepage": "https://github.com/happilymarrieddad/puglatizer#readme",
+	"dependencies": {
+		"async": "^2.5.0",
+		"escape-regexp": "0.0.1",
+		"minimist": "^1.2.0",
+		"pug": "^3.0.3",
+		"pug-runtime": "^2.0.3",
+		"terser": "^5.44.0"
+	}
 }
